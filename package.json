@@ -1,0 +1,41 @@
+{
+  "name": "homepage",
+  "version": "0.0.1",
+  "description": "My homepage, published on my Solid Pod.",
+  "main": "index.js",
+  "scripts": {
+    "build": "eleventy",
+    "watch": "eleventy --watch",
+    "serve": "eleventy --serve",
+    "start": "eleventy --serve",
+    "debug": "DEBUG=* eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NSeydoux/homepage.git"
+  },
+  "keywords": [
+    "homepage",
+    "blog",
+    "solid"
+  ],
+  "author": {
+    "name": "Nicolas Ayral Seydoux",
+    "url": "https://solid.zwifi.eu/profile/card#me"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NSeydoux/homepage/issues"
+  },
+  "homepage": "https://github.com/NSeydoux/homepage#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy-navigation": "^0.2.0",
+    "@inrupt/solid-client": "^1.6.1",
+    "markdown-it": "^10.0.0",
+    "markdown-it-anchor": "^7.1.0"
+  },
+  "dependencies": {
+    "luxon": "^1.26.0"
+  }
+}

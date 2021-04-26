@@ -1,0 +1,11 @@
+{
+  "title": "Chez Zwifi",
+  "url": "https://home.zwifi.eu/",
+  "language": "en",
+  "description": "I wanted to have a homepage.",
+  "author": {
+    "name": "Your Name Here",
+    "email": "youremailaddress@example.com",
+    "url": "https://example.com/about-me/"
+  }
+}
