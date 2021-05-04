@@ -1,0 +1,10 @@
+ <i>{{ publication.author }}</i>. <b>{{ publication.title }}</b>,
+{% if publication.month %}
+  ({{ publication.month }} {{ publication.year }}),
+{% else %}
+  ({{ publication.year }}),
+{% endif %}
+{{ publication.journal }} ({{ publication.publisher }})
+{% if publication.url %}
+ - (<a href={{ publication.url }}>url</a>)
+{% endif %}

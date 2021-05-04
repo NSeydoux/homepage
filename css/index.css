@@ -17,10 +17,19 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, system-ui, sans-serif;
+  font-family: "Helvetica", "Arial", sans-serif;
+  /* font-family: -apple-system, system-ui, sans-serif; */
   color: var(--darkgray);
   background-color: var(--white);
 }
+
+main {
+  max-width: 50em;
+  line-height: 1.5;
+  padding: 4em 1em;
+  margin: 0 auto;
+}
+
 p:last-child {
   margin-bottom: 0;
 }
@@ -65,6 +74,7 @@ pre,
 code {
   font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace;
   line-height: 1.5;
+  background: #eee;
 }
 pre {
   font-size: 14px;
@@ -87,6 +97,9 @@ pre {
 }
 code {
   word-break: break-all;
+  
+  padding: 2px 4px;
+  vertical-align: text-bottom;
 }
 .highlight-line {
   display: block;
@@ -244,4 +257,13 @@ a[href].direct-link:focus:visited,
 :hover > a[href].direct-link,
 :hover > a[href].direct-link:visited {
   color: #aaa;
+}
+
+/* Custom */
+
+.figure {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width:100%;
 }

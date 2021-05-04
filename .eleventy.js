@@ -118,6 +118,7 @@ module.exports = function(eleventyConfig) {
   // Copy the `img` and `css` folders to the output
   eleventyConfig.addPassthroughCopy("img");
   eleventyConfig.addPassthroughCopy("css");
+  eleventyConfig.addPassthroughCopy("static");
 
   // Customize Markdown library and settings:
   let markdownLibrary = markdownIt({
@@ -184,7 +185,9 @@ module.exports = function(eleventyConfig) {
     // You can also pass this in on the command line using `--pathprefix`
 
     // Optional (default is shown)
-    pathPrefix: "/zwifi/public/sandbox/",
+    // pathPrefix: "/zwifi/public/sandbox/",
+
+    
     // -----------------------------------------------------------------
 
     // Pre-process *.md files with: (default: `liquid`)

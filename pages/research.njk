@@ -6,3 +6,78 @@ eleventyNavigation:
 permalink: /research/
 ---
 <h1>Research</h1>
+
+<h2>Journal publications</h2>
+
+<ul>
+{%- for publication in publications.journal -%}
+  <li>
+    {% include "_includes/bibtex/article.njk" %}
+  </li>
+{%- endfor -%}
+</ul>
+
+<h2>Conference publications</h2>
+
+<h3>International conferences</h3>
+
+<ul>
+{%- for publication in publications.internationalConferences -%}
+  <li>
+    {% include "_includes/bibtex/inproceedings.njk" %}
+  </li>
+{%- endfor -%}
+</ul>
+
+<h3>National conferences (France)</h3>
+
+<ul>
+{%- for publication in publications.nationalConferences -%}
+  <li>
+    {% include "_includes/bibtex/inproceedings.njk" %}
+  </li>
+{%- endfor -%}
+</ul>
+
+<h2>Technical reports</h2>
+
+<h3>Whitepapers</h3>
+
+<ul>
+{%- for publication in publications.whitepapers -%}
+  <li>
+    {% include "_includes/bibtex/techreport.njk" %}
+  </li>
+{%- endfor -%}
+</ul>
+
+<h3>Specification work</h3>
+
+<ul>
+{%- for publication in publications.standards -%}
+  <li>
+    {% include "_includes/bibtex/techreport.njk" %}
+  </li>
+{%- endfor -%}
+</ul>
+
+<h2>Workshops</h2>
+
+<ul>
+{%- for publication in publications.workshops -%}
+  <li>
+    {% include "_includes/bibtex/inproceedings.njk" %}
+  </li>
+{%- endfor -%}
+</ul>
+
+<h2>Tutorials</h2>
+
+<ul>
+{%- for publication in publications.tutorials -%}
+  <li>
+    {% include "_includes/bibtex/inproceedings.njk" %}
+  </li>
+{%- endfor -%}
+</ul>
+

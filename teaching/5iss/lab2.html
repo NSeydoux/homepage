@@ -1,0 +1,49 @@
+---
+layout: layouts/tutorial.njk
+title: 5ISS Lab 2
+permalink: /teaching/5iss/labs/2/
+---
+
+<h1>Semantic Web of Things: Lab 2</h1>
+<h2>Purpose</h2>
+<p>During this lab, you will manipulate an ontology in you source code to build a semantic-aware application. Namely, you will reuse the ontology you previously developped, to annotate a <a href="https://zwifi.eu/raw_weather_data_aarhus.tar.gz">dataset</a> produced by the city of Aarhus, Denmark. These data are collected from temperature sensors, and they are stored in CSV files, which is at 3 stars on the Linked Data hierarchy. You will  convert it to 5-star data by using the ontology you built last lab.</p>
+<p>To complete this lab, a codebase is provided. It’s a wrapper around one of the main libraries for manipulating the Semantic Web principles and technologies in Java : Apache Jena. </p>
+
+<h2>Setup</h2>
+<ul>
+  <li>Prerequisite:
+    <ul>
+      <li>Java 8</li>
+      <li>maven</li>
+      <li>git</li>
+    </ul>
+  </li>
+  <li>Clone the following git repository : <code>git clone https://framagit.org/nseydoux/iss-semantics-lab</code></li>
+  <li>You can import the Maven project in Eclipse: </li>
+  <img class="figure" src="/static/teaching/5iss/eclipse-mvn.gif" alt="File->Import->Maven->Existing Maven Project..."/>
+  <li>Go to the cloned repo, and execute the command <code>mvn compile</code></li>
+  <li>If all goes well, you can now test your code using the command <code>mvn test</code>. The tests will fail, because nothing is implemented yet. These tests are unit tests, validating each functionnality that you have to develop. Try to run them as you go.</li>
+  <li>Download  <a href="https://zwifi.eu/raw_weather_data_aarhus.tar.gz">the dataset</a>.</li>
+</ul>
+
+<h2>Implementing the interfaces</h2>
+<p>The codebase that you cloned contains <b>Java interfaces</b> (functions specifications), namely <code>IControlFunctions</code> and <code>IModelFunctions</code>. These interfaces are implemented by the stubbed classes <code>DoItYourselfModel</code> and <code>DoItYourselfControl</code>. The functions to implement are of increasing complexity in order: the first one is the easiest, and as you progress you can reuse the previous elements you developped.</p>
+
+<h3>Implementing <code>IModelFunction</code></h3>
+<p><b>Start by implementing <code>IModelFunction</code> in <code>DoItYourselfModel</code></b>. These functions provide knowledge-base related operations. To help you, you will find functions in the <code>IConvenienceInterface</code> that wrap lower-level Jena functions and SPARQL queries. </p>
+<p>After having written each functions, run the tests. You can read the code for the tests if you are unsure of what you should do.</p>
+
+<h3>Implementing IControlFunctions</h3>
+<p>The controler uses functions from the model, and uses them to enrich the dataset. Once you complete the interface implementation, go to the main function in the Controler class. You must edit some code snippets depending on your environment. </p>
+
+<h3>Remarks</h3>
+This is a purely pedagogical codebase, and its performances are not great: many optimisations could be done. Moreover, the generated knowledge graph is managed in memory only: when the software stops, the knowledge base disappears. <b>Export it if you want to persist it</b>. The bottleneck are queries to the knowledge base, so think about caching.
+
+<h2>Exploitation in Protégé</h2>
+
+Import the generated model in Protégé (it takes a while). We now want to check if the sensors have been chosen wisely. SSN (a sensors ontology) contains classes and propertie to describe the conditions in which a sensor should be operated. Using the W3C <a href="http://www.w3.org/2005/Incubator/ssn/XGR-ssn-20110628/#Ontology_structure">description of SSN</a>, identify these classes/properties. Do you think the sensor are adapted to the environment in which they are deployed ? Could this deduction have been automated ?
+
+<h2>Additional question</h2>
+<ul>
+  <li>What is the difference between object property and data property ?</li>
+</ul>
