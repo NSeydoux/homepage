@@ -36,7 +36,7 @@ p:last-child {
 p,
 .tmpl-post li,
 img {
-  max-width: 37.5em; /* 600px /16 */
+  max-width: 45em; /* 600px /16 */
 }
 p,
 .tmpl-post li {
@@ -47,9 +47,6 @@ a[href] {
 }
 a[href]:visited {
   color: var(--navy);
-}
-main {
-  padding: 1rem;
 }
 main :first-child {
   margin-top: 0;
@@ -204,7 +201,6 @@ code {
   font-weight: 700;
 }
 
-
 /* Tags */
 .post-tag {
   display: inline-flex;
@@ -266,4 +262,8 @@ a[href].direct-link:focus:visited,
   margin-left: auto;
   margin-right: auto;
   max-width:100%;
+}
+
+p {
+  text-align: justify;
 }
