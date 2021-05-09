@@ -1,0 +1,27 @@
+name: Publish website
+
+on: 
+  push:
+    branch: chore/publish
+
+env: 
+  CI: true
+jobs: 
+  deploy: 
+    runs-on: ubuntu-20.04
+    steps: 
+      - uses: actions/checkout@v2.3.4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 16.x
+      - run: npm ci
+      - run: npm run build
+        env: 
+          ENABLE_PUBLISH: true
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          OPENID_ISSUER: https://solidcommunity.net
+          HOMEPAGE_ROOT: "./public/homepage/"
+          POD: "https://zwifi.solidcommunity.net/"
