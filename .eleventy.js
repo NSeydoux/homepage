@@ -3,34 +3,79 @@ const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const { DateTime } = require("luxon");
 
-const { readdirSync, lstatSync, readFileSync, writeFileSync } = require("fs");
-const { join, sep } = require("path")
-const { saveFileInContainer, deleteFile, createContainerInContainer, isRawData, getResourceInfo, getFile } = require("@inrupt/solid-client");
+const {
+  readdirSync,
+  lstatSync,
+  readFileSync,
+  writeFileSync
+} = require("fs");
+const { 
+  join,
+  sep,
+  extname
+} = require("path")
+const { 
+  saveFileInContainer,
+  deleteFile,
+  createContainerInContainer,
+  isRawData,
+  getResourceInfo,
+  getFile
+} = require("@inrupt/solid-client");
+
+const {
+  Session
+} = require("@inrupt/solid-client-authn-node");
+
+const { config } = require("dotenv-flow");
+
+// Load environment variables from .env.test.local if available:
+config({
+  path: __dirname,
+  // In CI, actual environment variables will overwrite values from .env files.
+  // We don't need warning messages in the logs for that:
+  silent: process.env.CI === "true",
+});
+
+const extensionToTypeMap = {
+  ".css": "text/css",
+  ".js": "text/javascript",
+  ".html": "text/html",
+  ".gif": "image/gif",
+  ".png": "image/png",
+  ".jpg": "image/jpg",
+  ".svg": "image/svg+xml"
+}
 
 function buildPodPath(filePath, podRoot) {
   // Removes the first element of the path (usually "_site" in our case)
   return podRoot+filePath.split(sep).slice(1, undefined).join("/")
 }
 
-function pushDirectory(dirPath, podRoot) {
+function pushDirectory(dirPath, podRoot, fetch) {
   readdirSync(dirPath).forEach(async (fileName) => {
     const filePath = join(dirPath, fileName)
     if(lstatSync(filePath).isDirectory()) {
       console.log(filePath, "is a directory");
       try {
         await createContainerInContainer(
-          buildPodPath(dirPath, podRoot),
-          { slugSuggestion: fileName }
+          buildPodPath(dirPath, podRoot), {
+            slugSuggestion: fileName,
+            fetch
+          }
         );
       } catch(e) {
         console.error(e)
       }
-      pushDirectory(filePath, podRoot);
+      pushDirectory(filePath, podRoot, fetch);
     } else {
       console.log(filePath, "is a file. deleting it from the server...")
       try {
         console.log(`Deleting ${buildPodPath(filePath, podRoot)}`)
-        await deleteFile(buildPodPath(filePath, podRoot));
+        await deleteFile(
+          buildPodPath(filePath, podRoot), {
+            fetch
+          });
       } catch (e) {
         console.error(e);
       }
@@ -39,7 +84,7 @@ function pushDirectory(dirPath, podRoot) {
       await saveFileInContainer(
         buildPodPath(dirPath, podRoot),
         Buffer.from(readFileSync(filePath, { encoding: "utf-8" })),
-        { contentType: "text/html", slug: fileName }
+        { contentType: extensionToTypeMap[extname(filePath)], slug: fileName, fetch }
       );
     }
   });
@@ -65,8 +110,6 @@ async function getSolidPosts(podRoot) {
     }
   })
 }
-
-const enablePublish = false;
 
 module.exports = function(eleventyConfig) {
   // Add plugins
@@ -151,16 +194,24 @@ module.exports = function(eleventyConfig) {
   });
 
   eleventyConfig.on('afterBuild', () => {
-    if(enablePublish) {
-      // Run me after the build ends
-      pushDirectory("_site/", "https://pod.inrupt.com/zwifi/public/blog/dist/");
-    }
-  });
-
-  eleventyConfig.on('afterBuild', () => {
-    if(enablePublish) {
-      // Run me after the build ends
-      pushDirectory("_site/", "https://pod.inrupt.com/zwifi/public/blog/dist/");
+    if(process.env.ENABLE_PUBLISH === "true") {
+      const session = new Session();
+      session.login({
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        oidcIssuer: process.env.OPENID_ISSUER
+      }).then(() => {
+        if(session.info.isLoggedIn) {
+          pushDirectory(
+            "_site/",
+            new URL(process.env.HOMEPAGE_ROOT, process.env.POD).href,
+            session.fetch
+          );
+        } else {
+          console.error("Logging in failed");
+        }
+      });
     }
   });
 
@@ -185,7 +236,7 @@ module.exports = function(eleventyConfig) {
     // You can also pass this in on the command line using `--pathprefix`
 
     // Optional (default is shown)
-    // pathPrefix: "/zwifi/public/sandbox/",
+    pathPrefix: process.env.HOMEPAGE_ROOT,
 
     
     // -----------------------------------------------------------------
