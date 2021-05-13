@@ -133,7 +133,7 @@ code {
 .home {
   padding: 0 1rem;
   float: left;
-  margin: 1rem 0; /* 16px /16 */
+  margin: 0.5rem 0; /* 16px /16 */
   font-size: 1em; /* 16px /16 */
 }
 .home :link:not(:hover) {
@@ -142,6 +142,7 @@ code {
 
 /* Nav */
 .nav {
+  margin: 0.5rem 0;
   padding: 0;
   list-style: none;
   float: left;
@@ -257,6 +258,13 @@ a[href].direct-link:focus:visited,
 
 /* Custom */
 
+:root {
+  --color-palette-dark: #e43d40;
+  --color-palette-main: #f37970;
+  --color-palette-bright: #f85c70;
+  --color-palette-light: #fabec0;
+}
+
 .figure {
   display: block;
   margin-left: auto;
@@ -266,4 +274,13 @@ a[href].direct-link:focus:visited,
 
 p {
   text-align: justify;
+}
+
+/* Banner */
+.banner {
+  background-color: var(--color-palette-dark);
+  width: 100%;
+  text-align: center;
+  color: var(--color-palette-light);
+  font-size: 1.5em;
 }

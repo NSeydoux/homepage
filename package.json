@@ -8,7 +8,8 @@
     "watch": "eleventy --watch",
     "serve": "eleventy --serve",
     "start": "eleventy --serve",
-    "debug": "DEBUG=* eleventy"
+    "debug": "DEBUG=* eleventy",
+    "build-site": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -32,9 +33,17 @@
     "@11ty/eleventy": "^0.12.1",
     "@11ty/eleventy-navigation": "^0.2.0",
     "@inrupt/solid-client": "^1.6.1",
+    "autoprefixer": "^10.2.5",
+    "css-loader": "^5.2.4",
     "dotenv-flow": "^3.2.0",
     "markdown-it": "^10.0.0",
-    "markdown-it-anchor": "^7.1.0"
+    "markdown-it-anchor": "^7.1.0",
+    "postcss-import": "^14.0.1",
+    "postcss-loader": "^5.2.0",
+    "style-loader": "^2.0.0",
+    "tailwindcss": "^2.1.2",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
   },
   "dependencies": {
     "@inrupt/solid-client-authn-node": "^1.8.1",
