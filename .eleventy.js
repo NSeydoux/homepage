@@ -29,6 +29,9 @@ const {
 
 const { config } = require("dotenv-flow");
 
+const webpackConfig = require('./webpack.config.js');
+const webpack = require('webpack');
+
 // Load environment variables from .env.test.local if available:
 config({
   path: __dirname,
@@ -194,25 +197,28 @@ module.exports = function(eleventyConfig) {
   });
 
   eleventyConfig.on('afterBuild', () => {
-    if(process.env.ENABLE_PUBLISH === "true") {
-      const session = new Session();
-      session.login({
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN,
-        oidcIssuer: process.env.OPENID_ISSUER
-      }).then(() => {
-        if(session.info.isLoggedIn) {
-          pushDirectory(
-            "_site/",
-            new URL(process.env.HOMEPAGE_ROOT, process.env.POD).href,
-            session.fetch
-          );
-        } else {
-          console.error("Logging in failed");
-        }
-      });
-    }
+    const compiler = webpack(webpackConfig);
+    compiler.run(() => {
+      if(process.env.ENABLE_PUBLISH === "true") {
+        const session = new Session();
+        session.login({
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          refreshToken: process.env.REFRESH_TOKEN,
+          oidcIssuer: process.env.OPENID_ISSUER
+        }).then(() => {
+          if(session.info.isLoggedIn) {
+            pushDirectory(
+              "_site/",
+              new URL(process.env.HOMEPAGE_ROOT, process.env.POD).href,
+              session.fetch
+            );
+          } else {
+            console.error("Logging in failed");
+          }
+        });
+      }
+    });
   });
 
   return {
