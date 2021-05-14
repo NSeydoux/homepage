@@ -21,12 +21,15 @@
       {%- endfor %}
       </ul>
     </header>
-
-    {% include "_includes/profile/summary.njk" %}
-
-    <main{% if templateClass %} class="{{ templateClass }}"{% endif %}>
-      {{ content | safe }}
-    </main>
+    
+    <div class="grid grid-cols-12">
+      <div class="hidden md:block md:col-span-2">
+        {% include "_includes/profile/summary.njk" %}
+      </div>
+      <main class="col-span-8">
+        {{ content | safe }}
+      </main>
+    </div>
 
     <footer></footer>
     <script src="./dist/bundle.js"></script>
