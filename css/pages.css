@@ -1,0 +1,30 @@
+.content {
+  & h1 {
+    text-align: center;
+    font-size: 1.5em;
+  }
+
+  & h2 {
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.25em;
+  }
+
+  & h3 {
+    text-align: left;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  & ul {
+    list-style: disc;
+    padding: 0.5em;
+  }
+
+  & a {
+    color: var(--color-palette-bright);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

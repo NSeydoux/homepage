@@ -1,3 +1,8 @@
 .profile figcaption {
   text-align: center;
 }
+
+.profile img {
+  max-width: 10em;
+  margin: auto;
+}

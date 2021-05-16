@@ -2,12 +2,10 @@
 layout: layouts/base.njk
 eleventyNavigation:
   key: Teaching
-  order: 3
+  order: 2
 permalink: /teaching/
 ---
-<h1>Teaching</h1>
-
-<h2>Classes</h2>
+<h1 class="text-left text-black">Classes</h1>
 
 <ul>
 {%- for post in collections.syllabus -%}
@@ -15,7 +13,7 @@ permalink: /teaching/
 {%- endfor -%}
 </ul>
 
-<h2>Tutorials</h2>
+<h1 class="text-left text-black">Tutorials</h1>
 
 <ul>
 {%- for slide in solid_slides -%}

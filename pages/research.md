@@ -2,7 +2,7 @@
 layout: layouts/research.njk
 eleventyNavigation:
   key: Research
-  order: 4
+  order: 3
 permalink: /research/
 ---
 
