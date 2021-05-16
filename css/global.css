@@ -1,0 +1,4 @@
+a {
+  color: var(--color-palette-bright);
+  text-decoration: underline;
+}
