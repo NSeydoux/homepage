@@ -32,11 +32,10 @@ Vous serez aussi amenés à vous interroger sur les difficultés liées à l'int
 # Ressources pédagogiques
 
 ## Support de cours
-- [Support du cours en PDF]({filename}/docs/lectures/swot_introduction.pdf)
-- [Sources LaTeX du support de cours](https://framagit.org/IRIT_UT2J/swot_introductory_lecture)
+- [Support du cours (lecture slides)](https://zwifi.eu/slides/teaching/5iss/)
 
 ## Sujets des TPs
-- [TP1]({filename}/docs/tp1.pdf)
+- [TP1](/teaching/5iss/labs/1/)
 - [TP2](/teaching/5iss/labs/2/)
   - [Dataset TP2](https://zwifi.eu/raw_weather_data_aarhus.tar.gz)
 - [Exemple de rapport]({filename}/docs/TP_ISS_exemple_rapport.zip)

@@ -1,0 +1,260 @@
+---
+layout: layouts/tutorial.njk
+title: 5ISS Lab 1
+permalink: /teaching/5iss/labs/1/
+---
+
+<h1>Semantic Web of Things labs</h1>
+<h2>Overall context</h2>
+<p>
+  During this two-part lab series, you will develop what could be the foundation
+  for a smart city wheater app. To do this, data from wheater station will be
+  annotated so that they go up <a href="https://www.w3.org/DesignIssues/LinkedData.html">the linked data hierarchy</a>.
+</p>
+<p>
+  First, you'll build a (simplified) meteorology ontology to have a vocabulary
+  you'll be able to use to describe data (remember, that's the <a href="https://zwifi.eu/slides/teaching/5iss/?full#74">
+  definition of what an ontology is</a>). You'll be using Protégé, a graphical
+  ontology editor, to manipulate the main components of an ontology.
+</p>
+<p>
+  Then, you'll use that ontology to describe data from an <a href="http://iot.ee.surrey.ac.uk:8080/datasets.html">open data</a>
+  published by Aarhus, a Danish city. This data is a set of observations collected
+  by wheater stations, recorded in CSV. You'll convert them into 5-star Linked 
+  Data thanks to the ontology you've built.
+</p>
+<hr/>
+<h1>Semantic Web of Things: Lab 1</h1>
+<h2>Purpose</h2>
+<p>
+  The intent of these lab is to have you create an ontology step by step so that
+  you get accointed with its main components. You will also use a reasoner to
+  see what automatic deductions can be made thorough the lifecycle of the ontology
+  design.
+</p>
+<h2>Before you start</h2>
+<p>
+  <ul>
+    <li>
+      Download <a href="http://protege.stanford.edu/products.php#desktop-protege">Protégé</a>,
+      an ontology editing tool.
+    </li>
+    <li>
+      Run Protégé (<code>./run.sh</code> in the archive you've downloaded).
+      You can skip installing plugins.
+    </li>
+    <li>
+      When Protégé has started, go to <code>File/Preferences</code>, and then 
+      to the <code>New Entities</code> tab. Select <code>Auto-generated ID</code>
+      instead of <code>User-supplied name</code>. This setting sets a clear
+      boundary between human-oriented names, encoded in labels, and machine-oriented
+      names, encoded in opaque IRIs. Make sure that the language tag matches
+      the language you'll be using.
+    </li>
+    <li class="warning">
+      Protégé is not always very stable, and may crash during the lab. Make sure
+      you save your progress <u>regularily</u>.
+    </li>
+  </ul> 
+</p>
+<h2>Designing the ontology</h2>
+<p>
+  You will now start building the ontology. Its requirements are the following:
+  <ul>
+    <li>
+      Being able to describe wheather events (shower, sunshine...)
+    </li>
+    <li>
+      Being able to describe parameters related to these events (temperature, pressure...)
+    </li>
+    <li>
+      Being able to describe wheather stations observations
+    </li>
+    <li>
+      Being able to link observations to events
+    </li>
+  </ul>
+</p>
+<h3>Designing a lightwheight ontology</h3>
+<p>
+  Translate the following statements into ontology elements by creating <em>classes</em>:
+  <ol>
+    <li>
+      <u>Nice weather</u> and <u>Bad weather</u> are two types of <u>Weather event</u>.
+    </li>
+    <li>
+      <u>Shower</u> and <u>Fog</u> are two types of <u>Bad weather</u>, <u>Sunshine</u>
+      is a type of <u>Nice weather</u>.
+    </li>
+    <li>
+      <u>Observable parameter</u>, <u>Instant</u> and <u>Observation</u>
+    are additional classes in the ontology.
+    </li>
+    <li><u>City</u>, <u>Country</u> and <u>Continents</u> are types of <u>Places</u>.</li>
+  </ol>
+</p>
+<p>
+  Translate the following statements into ontology elements by adding properties.
+  Link these properties to the classes you've just created by setting their
+  <code>Domain</code> and <code>Range</code>. Note that two types of properties
+  are available: <code>Object properties</code>, linking two class instances,
+  and <code>Data properties</code>, linking a class instance to a litteral (string,
+  numerical value, date...).
+  <ol>
+    <li>
+      A <u>Weather event</u> <u>is characterized by</u> <u>Observable parameters</u>.
+    </li>
+    <li>
+      A <u>Weather event</u> <u>has a duration</u> expressed as an <code>xsd:float</code>
+      value (in minutes).
+    </li>
+    <li>
+      A <u>Weather event</u> <u>starts at</u> an <u>Instant</u>.
+    </li>
+    <li>
+      A <u>Weather event</u> <u>ends at</u> an <u>Instant</u>.
+    </li>
+    <li>
+      An <u>Instant</u> <u>has for date</u> an <code>xsd:dateTimeStamp</code>.
+    </li>
+    <li>
+      A <u>Weather event</u> <u>has for symptom</u> an <u>Observation</u>.
+    </li>
+    <li>
+      An <u>Observation</u> <u>measures</u> an <u>Observable parameter</u>.
+    </li>
+    <li>
+      An <u>Observation</u> <u>has for value</u> an <code>xsd:float</code>. 
+      Modelling units is out of scope for this lab.
+    </li>
+    <li>
+      An <u>Observation</u> <u>is located in</u> a <u>Place</u>.
+    </li>
+    <li>
+      An <u>Observation</u> <u>is dated at</u> an <u>Instant</u>.
+    </li>
+    <li>
+      A <u>Place</u> <u>is located in</u> another <u>Place</u>.
+    </li>
+    <li>
+      A <u>Place</u> <u>is the location of</u> another <u>Place</u>
+    </li>
+    <li>
+      A <u>Country</u> <u>has for capital</u> a <u>City</u>
+    </li>
+  </ol>
+</p>
+<h3>Populating the knowledge base</h3>
+<p>
+  Implement the following statements using the ontology you just built, by
+  instantiating individuals and adding <code>Object property assertions</code>
+  and <code>Data property assertions</code> to describe them. After
+  <emp>each</emp> statement, run the reasoner (pick <code>Hermitt</code> in 
+  the <code>Reasoner</code> tab, then press <code>CTRL+R</code> each time you
+  want the reasoner to run). <emp>Document the deductions in the lab report</emp>.
+  <ol>
+    <li>
+      <u>Temperature</u>, <u>Hygrometry</u>, <u>Rainfall</u>, <u>Athmospheric
+      pressure</u>, <u>Wind speed</u> and <u>Wind strength</u> are instances of
+      <u>Observable parameter</u>.
+    </li>
+    <li>
+      <u>Température</u> is a French synonym to <ul>Temperature</ul>. Add it
+      as a label (properly setting the language tag) in the individual's
+      annotations.
+    </li>
+    <li>
+      <u>Wind speed</u> and <u>Wind strength</u> are equivalent.
+    </li>
+    <li>
+      Toulouse is located in France. Note that the individuals <emp>are not typed</emp>
+      in the statement: do <emp>not</emp> create them as a City or a Country, but
+      as untyped individuals. <emp>What does the reasoner infer ?</emp>
+    </li>
+    <li>
+      Toulouse is a City.
+    </li>
+    <li>
+      Paris is the capital of France. Create Paris as an untyped individual.
+    </li>
+    <li>
+      10/11/2015 at 10AM is an instant wel'll call <emp>I1</emp>. Its timestamp
+      is <code>2015-11-10T10:00:00Z</code>.
+    </li>
+    <li>
+      P1 is an observation measuring a value of 3mm of rainfall at Toulouse
+      at moment I1.
+    </li>
+    <li>
+      A1 has for symptom P1.
+    </li>
+  </ol>
+</p>
+<hr/>
+<h3>Designing a heavy ontology</h3>
+<p>
+  You will now add logical axioms to the ontology to make it more expressive.
+  Express the following statements in the ontology. Note that some definitions
+  are provided <a href="https://www.w3.org/2007/OWL/wiki/Primer#Property_Characteristics">here</a>
+  to explain the properties characteristics you can set in Protégé.
+  <ol>
+    <li>
+      A City instance cannot be a Country instance.
+    </li>
+    <li>
+      A <u>Short Event</u> is a <u>Weather Event</u> that lasts less than 15 minutes.
+      Create the <u>Short Event</u> class, and add the following axiom to its
+      equivalent classes: <code>Event that ’has for duration’ some xsd:float
+      [< 15]</code>. Note that you may need to adjust the class and property
+      names according to your own choices in the previous questions.
+    </li>
+    <li>
+      A <u>Long Event</u> is a <u>Weather Event</u> that lasts more than 15 minutes.
+    </li>
+    <li>
+      The property <u>is located in</u> is the inverse of <u>is location of</u>.
+    </li>
+    <li>
+      If some Place <i>A</i> is located in some place <i>B</i>, and <i>B</i>
+      is located in <i>C</i>, then <i>A</i> is located in <i>C</i>.
+    </li>
+    <li>
+      A City can only be the capital of one Coutry, and a Country may only have
+      one capital.
+    </li>
+    <li>
+      If a City is the capital of a Country, then this City is located in that
+      Country. Hint: use the notion of sub-properties.
+    </li>
+    <li>
+      A <u>Shower</u> is a <u>Weather Event</u> that <u>has for symptom</u> a
+      <u>Rainfall</u> <u>Observation</u> which <u>value</u> is more than zero:
+      <code>'Weather Event' that ’has for symptom’ some (Observation that ('measures'
+        value Rainfall) and (’has value some xsd:float [>
+        0]))</code>
+    </li>
+  </ol>
+</p>
+<h3>Populating the ontology</h3>
+<p>
+  As you did previously, for each assertion, observe the deductions from the
+  reasoner and document relevant information in your lab report.
+  <ul>
+    <li>
+      France is in Europe.
+    </li>
+    <li>
+      The City of Lights is the capital of France.
+    </li>
+    <li>
+      Singapore is both a City and a Country.
+    </li>
+  </ul>
+</p>
+<p>
+  Finally, what does the reasoner say about <code>A1</code> ?
+</p>
+
+<p>
+  Go to <a href="/teaching/5iss/labs/2/">lab 2</a>
+</p>
